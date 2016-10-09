@@ -10,7 +10,7 @@
         <div class='col-md-12'>
             <div class="box-body">
 
-                {!! Form::model( $user, ['route' => ['staff.profile.patch', $user->id], 'method' => 'PATCH', 'id' => 'form_edit_user'] ) !!}
+                {!! Form::model( $staff, ['route' => ['staff.profile.patch', $staff->id], 'method' => 'PATCH', 'id' => 'form_edit_user'] ) !!}
 
                     <!-- Custom Tabs -->
                     <div class="nav-tabs-custom">
@@ -98,7 +98,7 @@
                                                 <th>{!! trans('admin/roles/general.columns.description')  !!}</th>
                                                 <th>{!! trans('admin/roles/general.columns.enabled')  !!}</th>
                                             </tr>
-                                            @foreach($user->roles as $role)
+                                            @foreach($staff->roles as $role)
                                                 <tr>
                                                     <td>{!! $role->display_name !!}</td>
                                                     <td>{!! $role->description !!}</td>
@@ -129,7 +129,7 @@
                                                     <th>{!! trans('admin/roles/general.columns.enabled')  !!}</th>
                                                 </tr>
                                                 @foreach($perms as $perm)
-                                                    @if($user->can($perm->name))
+                                                    @if($staff->can($perm->name))
                                                         <tr>
                                                             <td>{!! $perm->display_name !!}</td>
                                                             <td>{!! $perm->description !!}</td>

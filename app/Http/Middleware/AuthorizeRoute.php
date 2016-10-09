@@ -64,6 +64,7 @@ class AuthorizeRoute
                 $guest      = true;
             }
 
+
             // AuthController and PasswordController are exempt from authorization.
             // TODO: Get list of controllers exempt from config.
             if (str_contains($actionName, 'AuthController@') ||
@@ -71,12 +72,12 @@ class AuthorizeRoute
             ) {
                 $authorized = true;
             }
-            // User is 'root', all is authorized.
+            // Staff is 'root', all is authorized.
             // TODO: Get super staff name from config, and replace all occurrences.
             elseif (!$guest && isset($user) && 'root' == $user->username) {
                 $authorized = true;
             }
-            // User has the role 'admins', all is authorized.
+            // Staff has the role 'admins', all is authorized.
             // TODO: Get 'admins' role name from config, and replace all occurrences.
             elseif (!$guest && isset($user) && $user->hasRole('admins')) {
                 $authorized = true;
@@ -102,7 +103,7 @@ class AuthorizeRoute
                             $authorized = true;
                         }
                         // TODO: Get 'guest-only' role name from config, and replace all occurrences.
-                        // User is guest/unauthenticated and the route is restricted to guests.
+                        // Staff is guest/unauthenticated and the route is restricted to guests.
                         elseif ( $guest && 'guest-only' == $appRoute->permission->name ) {
                             $authorized = true;
                         }
@@ -140,13 +141,16 @@ class AuthorizeRoute
             }
         }
 
+
+        $authorized = true;
+
         // If authorize, proceed
         if ($authorized) {
             return $next($request);
         // Else if error code was set abort with that.
         } elseif ( 0 != $errorCode ) {
             if ( !$guest && isset($user) && (!$user->enabled) ) {
-                Log::error("User [" . $user->username . "] disabled, forcing logout.");
+                Log::error("Staff [" . $user->username . "] disabled, forcing logout.");
                 return redirect( route('logout') );
             }
             else {

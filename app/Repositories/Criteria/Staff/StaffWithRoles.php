@@ -15,6 +15,7 @@ class UsersWithRoles extends Criteria {
     public function apply( $model, Repository $repository )
     {
         $model = $model->with('roles');
+
         return $model;
     }
 

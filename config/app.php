@@ -2,6 +2,10 @@
 
 return [
 
+
+    'env' => env('APP_ENV', 'development'),
+
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -133,7 +137,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Permission and User relationship table
+    | Permission and Staff relationship table
     |--------------------------------------------------------------------------
     |
     | This is the permission_user table used to save relationship
@@ -251,7 +255,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User profile link
+    | Staff profile link
     |--------------------------------------------------------------------------
     |
     | Boolean flag that shows the staff profile link boilerplate, defaults to true.
@@ -293,14 +297,14 @@ return [
 
         /*
          * Laravel Framework Service Providers...
-         */
-        Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
+         *  /
+        ====> No longer in 5.2  =>  Illuminate\Foundation\Providers\ArtisanServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Routing\ControllerServiceProvider::class,
+        ====> No longer in 5.2  =>  Illuminate\Routing\ControllerServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
         Illuminate\Encryption\EncryptionServiceProvider::class,
@@ -320,10 +324,41 @@ return [
 
         /*
          * Application Service Providers...
-         */
+         *  /
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        */
+        Illuminate\Auth\AuthServiceProvider::class,
+        Illuminate\Broadcasting\BroadcastServiceProvider::class,
+        Illuminate\Bus\BusServiceProvider::class,
+        Illuminate\Cache\CacheServiceProvider::class,
+        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
+        Illuminate\Cookie\CookieServiceProvider::class,
+        Illuminate\Database\DatabaseServiceProvider::class,
+        Illuminate\Encryption\EncryptionServiceProvider::class,
+        Illuminate\Filesystem\FilesystemServiceProvider::class,
+        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
+        Illuminate\Hashing\HashServiceProvider::class,
+        Illuminate\Mail\MailServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pipeline\PipelineServiceProvider::class,
+        Illuminate\Queue\QueueServiceProvider::class,
+        Illuminate\Redis\RedisServiceProvider::class,
+        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Illuminate\Translation\TranslationServiceProvider::class,
+        Illuminate\Validation\ValidationServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
+        /*
+         * Application Service Providers...
+         */
+        App\Providers\AppServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+        App\Providers\EventServiceProvider::class,
+        App\Providers\RouteServiceProvider::class,
+
+
         App\Providers\MenuBuilderServiceProvider::class,
         App\Providers\CustomBladeServiceProvider::class,
 
@@ -341,7 +376,7 @@ return [
         Creativeorange\Gravatar\GravatarServiceProvider::class,
         Tylercd100\LERN\LERNServiceProvider::class,
         Arcanedev\Settings\SettingsServiceProvider::class,
-
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

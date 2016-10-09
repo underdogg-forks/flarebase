@@ -95,7 +95,7 @@ class LESKSecuredMenuHandler implements MenuHandlerInterface
                 $authorized = true;
             }
             // TODO: Get 'guest-only' role name from config, and replace all occurrences.
-            // User is guest/unauthenticated and the route is restricted to guests.
+            // Staff is guest/unauthenticated and the route is restricted to guests.
             elseif ( $guest && 'guest-only' == $perm->name ) {
                 $authorized = true;
             }

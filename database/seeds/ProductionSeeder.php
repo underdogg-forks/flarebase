@@ -245,8 +245,8 @@ class ProductionSeeder extends Seeder
         // Assign permission manage-staff
         $roleUserManagers = Role::create([
             "name"          => "staff-managers",
-            "display_name"  => "User managers",
-            "description"   => "User managers are granted all permissions to the Admin|Staff section.",
+            "display_name"  => "Staff managers",
+            "description"   => "Staff managers are granted all permissions to the Admin|Staff section.",
             "enabled"       => true
         ]);
         $roleUserManagers->perms()->attach($permManageUsers->id);

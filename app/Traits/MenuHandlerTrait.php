@@ -69,11 +69,14 @@ trait MenuHandlerTrait
      */
     public function renderMenu( $topNode = 'root', $includeTopNode = false )
     {
-        $menuContent = "";
+        $menuContent = "hello world";
 
         try {
             $topNode = $this->getMenuItem($topNode);
             $menuBranch = $this->getMenuBranch();
+
+
+
 
             $variables   = $this->getVariables($topNode);
             $menuContent = $this->replaceVars($this->MENU_HEADER, $variables);

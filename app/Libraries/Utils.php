@@ -51,7 +51,7 @@ class Utils
      * Iterate through the flattened array of settings and removes
      * all staff settings. A new array is build and returned.
      *
-     * User settings are found to start with the 'User" key followed by a number,
+     * Staff settings are found to start with the 'Staff" key followed by a number,
      * both parts are separated by a dot ('.').
      *
      * @param $allSettings
@@ -60,7 +60,7 @@ class Utils
     public static function FilterOutUserSettings($allSettings)
     {
         $allNonUserSetting = Arr::where($allSettings, function ($k) {
-            if ("User." === substr( $k, 0, 5 ) ) {
+            if ("Staff." === substr( $k, 0, 5 ) ) {
                 $kparts = explode('.', $k);
                 $user = Staff::ofUsername($kparts[1])->first();
                 if ($user instanceof User) {

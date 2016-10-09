@@ -17,20 +17,20 @@ return [
     ],
 
     'status'              => [
-        'created'                   => 'User successfully created',
-        'updated'                   => 'User successfully updated',
-        'deleted'                   => 'User successfully deleted',
+        'created'                   => 'Staff successfully created',
+        'updated'                   => 'Staff successfully updated',
+        'deleted'                   => 'Staff successfully deleted',
         'global-enabled'            => 'Selected staff enabled.',
         'global-disabled'           => 'Selected staff disabled.',
-        'enabled'                   => 'User enabled.',
-        'disabled'                  => 'User disabled.',
+        'enabled'                   => 'Staff enabled.',
+        'disabled'                  => 'Staff disabled.',
         'no-staff-selected'          => 'No staff selected.',
     ],
 
     'error'               => [
-        'cant-be-edited'                => 'User cannot be edited',
-        'cant-be-deleted'               => 'User cannot be deleted',
-        'cant-be-disabled'              => 'User cannot be disabled',
+        'cant-be-edited'                => 'Staff cannot be edited',
+        'cant-be-deleted'               => 'Staff cannot be deleted',
+        'cant-be-disabled'              => 'Staff cannot be disabled',
         'login-failed-staff-disabled'    => 'That account has been disabled.',
         'perm_not_found'                => 'Could not find permission #:id.',
         'user_not_found'                => 'Could not find staff #:id.',
@@ -40,20 +40,20 @@ return [
         'index'              => [
             'title'             => 'Admin | Staff',
             'description'       => 'List of staff',
-            'table-title'       => 'User list',
+            'table-title'       => 'Staff list',
         ],
         'show'              => [
-            'title'             => 'Admin | User | Show',
+            'title'             => 'Admin | Staff | Show',
             'description'       => 'Displaying staff: :full_name',
-            'section-title'     => 'User details'
+            'section-title'     => 'Staff details'
         ],
         'create'            => [
-            'title'            => 'Admin | User | Create',
+            'title'            => 'Admin | Staff | Create',
             'description'      => 'Creating a new staff',
             'section-title'    => 'New staff'
         ],
         'edit'              => [
-            'title'            => 'Admin | User | Edit',
+            'title'            => 'Admin | Staff | Edit',
             'description'      => 'Editing staff: :full_name',
             'section-title'    => 'Edit staff'
         ],
@@ -62,7 +62,7 @@ return [
     'columns'           => [
         'id'                        =>  'ID',
         'gravatar'                  =>  'Gravatar',
-        'username'                  =>  'User name',
+        'username'                  =>  'Staff name',
         'first_name'                =>  'First name',
         'last_name'                 =>  'Last name',
         'name'                      =>  'Name',

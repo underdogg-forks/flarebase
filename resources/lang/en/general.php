@@ -82,7 +82,7 @@ return [
 
     'page'              => [
         'profile'              => [
-            'title'             => 'User | Profile',
+            'title'             => 'Staff | Profile',
             'description'       => 'Displaying staff: :full_name',
             'section-title'     => 'Profile details'
         ],

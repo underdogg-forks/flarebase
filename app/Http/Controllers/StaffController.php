@@ -60,7 +60,12 @@ class StaffController extends Controller
         $page_title = trans('admin/staff/general.page.index.title'); // "Admin | Staff";
         $page_description = trans('admin/staff/general.page.index.description'); // "List of staff";
 
-        $staff = $this->staff->pushCriteria(new UsersWithRoles())->pushCriteria(new UsersByUsernamesAscending())->paginate(10);
+        //$staff = $this->staff->pushCriteria(new UsersWithRoles())->pushCriteria(new UsersByUsernamesAscending())->paginate(10);
+
+
+
+
+
         return view('admin.staff.index', compact('staff', 'page_title', 'page_description'));
     }
 
@@ -73,7 +78,7 @@ class StaffController extends Controller
 
         Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-show', ['username' => $staff->username]));
 
-        $page_title = trans('admin/staff/general.page.show.title'); // "Admin | User | Show";
+        $page_title = trans('admin/staff/general.page.show.title'); // "Admin | Staff | Show";
         $page_description = trans('admin/staff/general.page.show.description', ['full_name' => $staff->full_name]); // "Displaying staff";
 
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
@@ -97,7 +102,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        $page_title = trans('admin/staff/general.page.create.title'); // "Admin | User | Create";
+        $page_title = trans('admin/staff/general.page.create.title'); // "Admin | Staff | Create";
         $page_description = trans('admin/staff/general.page.create.description'); // "Creating a new staff";
 
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
@@ -143,7 +148,7 @@ class StaffController extends Controller
         // Run the update method to set enabled status and roles membership.
         $staff->update($attributes);
 
-        Flash::success( trans('admin/staff/general.status.created') ); // 'User successfully created');
+        Flash::success( trans('admin/staff/general.status.created') ); // 'Staff successfully created');
 
         return redirect('/admin/staff');
     }
@@ -159,7 +164,7 @@ class StaffController extends Controller
 
         Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-edit', ['username' => $staff->username]));
 
-        $page_title = trans('admin/staff/general.page.edit.title'); // "Admin | User | Edit";
+        $page_title = trans('admin/staff/general.page.edit.title'); // "Admin | Staff | Edit";
         $page_description = trans('admin/staff/general.page.edit.description', ['full_name' => $staff->full_name]); // "Editing staff";
 
         $roles = $this->role->pushCriteria(new RolesByNamesAscending())->all();
@@ -254,7 +259,7 @@ class StaffController extends Controller
 
         Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-replay-edit', ['username' => $staff->username]));
 
-        $page_title = trans('admin/staff/general.page.edit.title'); // "Admin | User | Edit";
+        $page_title = trans('admin/staff/general.page.edit.title'); // "Admin | Staff | Edit";
         $page_description = trans('admin/staff/general.page.edit.description', ['full_name' => $staff->full_name]); // "Editing staff";
 
         if (!$staff->isEditable())
@@ -568,6 +573,10 @@ class StaffController extends Controller
         $page_title = trans('general.page.profile.title');
         $page_description = trans('general.page.profile.description', ['full_name' => $staff->full_name]);
         $readOnlyIfLDAP = ('ldap' == $staff->auth_type) ? 'readonly' : '';
+
+
+
+
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
 
         $themes = \Theme::getList();

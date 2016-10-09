@@ -159,7 +159,7 @@ class PasswordController extends Controller
      */
     protected function resetPassword($staff, $password)
     {
-        // Do not crypt the password here, the User model does it.
+        // Do not crypt the password here, the Staff model does it.
         $staff->password = $password;
 
         $staff->save();

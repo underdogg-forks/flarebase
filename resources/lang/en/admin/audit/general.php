@@ -34,7 +34,7 @@ return [
     ],
 
     'columns'             => [
-        'username'            =>  'User name',
+        'username'            =>  'Staff name',
         'category'            =>  'Category',
         'message'             =>  'Message',
         'date'                =>  'Date',

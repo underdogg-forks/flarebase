@@ -45,7 +45,7 @@ Route::group(['middleware' => 'authorize'], function () {
 
     // Site administration section
     Route::group(['prefix' => 'admin'], function () {
-        // User routes
+        // Staff routes
         Route::post(  'staff/enableSelected',          ['as' => 'admin.staff.enable-selected',  'uses' => 'StaffController@enableSelected']);
         Route::post(  'staff/disableSelected',         ['as' => 'admin.staff.disable-selected', 'uses' => 'StaffController@disableSelected']);
         Route::get(   'staff/search',                  ['as' => 'admin.staff.search',           'uses' => 'StaffController@searchByName']);

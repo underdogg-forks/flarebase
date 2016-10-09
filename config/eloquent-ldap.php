@@ -171,7 +171,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User name
+    | Staff name
     |--------------------------------------------------------------------------
     |
     | Enter the name of the staff that will query the AD/LDAP server.
@@ -257,7 +257,7 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | User name field
+    | Staff name field
     |--------------------------------------------------------------------------
     |
     | Enter the name of the field that will contain the staff name.

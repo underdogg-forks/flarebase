@@ -1,9 +1,13 @@
 <?php namespace App\Repositories\Criteria\Permission;
 
-use Bosnadev\Repositories\Criteria\Criteria;
-use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
 
-class PermissionsByNamesAscending extends Criteria {
+use Bosnadev\Repositories\Contracts\RepositoryInterface as Repository;
+use Prettus\Repository\Contracts\CriteriaInterface;
+use Prettus\Repository\Contracts\RepositoryInterface;
+
+
+class PermissionsByNamesAscending implements CriteriaInterface
+{
 
 
     /**
@@ -12,7 +16,7 @@ class PermissionsByNamesAscending extends Criteria {
      *
      * @return mixed
      */
-    public function apply( $model, Repository $repository )
+    public function apply( $model, RepositoryInterface $repository )
     {
         $model = $model->orderBy('name', 'ASC');
         return $model;

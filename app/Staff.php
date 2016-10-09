@@ -14,10 +14,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
 use Mail;
-use Sroutier\EloquentLDAP\Contracts\EloquentLDAPUserInterface;
 use Zizaco\Entrust\Traits\EntrustUserTrait as EntrustUserTrait;
 
-class Staff extends Model implements AuthenticatableContract, CanResetPasswordContract, EloquentLDAPUserInterface
+class Staff extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable, CanResetPassword;
     use EntrustUserTrait, StaffHasPermissionsTrait {
@@ -62,7 +61,7 @@ class Staff extends Model implements AuthenticatableContract, CanResetPasswordCo
     protected $settings = null;
 
     /**
-     * Eloquent hook to HasMany relationship between User and Audit
+     * Eloquent hook to HasMany relationship between Staff and Audit
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -72,7 +71,7 @@ class Staff extends Model implements AuthenticatableContract, CanResetPasswordCo
     }
 
     /**
-     * Eloquent hook to HasMany relationship between User and Error
+     * Eloquent hook to HasMany relationship between Staff and Error
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -277,7 +276,7 @@ class Staff extends Model implements AuthenticatableContract, CanResetPasswordCo
      * @param array $attributes
      * @return void
      */
-    public function update(array $attributes = [])
+    public function update(array $attributes = [], array $options = [])
     {
 
         if ( array_key_exists('first_name', $attributes) ) {
@@ -352,7 +351,7 @@ class Staff extends Model implements AuthenticatableContract, CanResetPasswordCo
     }
 
     /**
-     * Returns the validation rules required to create a User.
+     * Returns the validation rules required to create a Staff.
      *
      * @return array
      */
@@ -366,7 +365,7 @@ class Staff extends Model implements AuthenticatableContract, CanResetPasswordCo
     }
 
     /**
-     * Returns the validation rules required to update a User.
+     * Returns the validation rules required to update a Staff.
      *
      * @return array
      */
@@ -389,7 +388,7 @@ class Staff extends Model implements AuthenticatableContract, CanResetPasswordCo
         if (null != $this->settings) {
             return $this->settings;
         } else {
-            return new Setting('User.' . $this->username);
+            return new Setting('Staff.' . $this->username);
         }
     }
 

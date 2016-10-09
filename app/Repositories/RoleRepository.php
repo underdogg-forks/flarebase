@@ -1,8 +1,8 @@
 <?php namespace App\Repositories;
 
-use Bosnadev\Repositories\Eloquent\Repository;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class RoleRepository extends Repository
+class RoleRepository extends BaseRepository
 {
 
     public function model()

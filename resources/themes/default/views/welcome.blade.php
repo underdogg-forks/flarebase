@@ -1,6 +1,10 @@
 @extends('layouts.master')
 
 @section('content')
+
+
+
+
     <h1>{{ trans('general.text.welcome') }}</h1>
     <div class="box-body">
         Mei ad adhuc summo cetero. Qui assum habemus signiferumque cu,

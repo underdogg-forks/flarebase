@@ -1,8 +1,8 @@
 <?php namespace App\Repositories;
 
-use Bosnadev\Repositories\Eloquent\Repository;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class RouteRepository extends Repository
+class RouteRepository extends BaseRepository
 {
     public function model()
     {

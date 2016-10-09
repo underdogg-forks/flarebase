@@ -41,7 +41,7 @@
                                         <li><!-- start message -->
                                             <a href="#">
                                                 <div class="pull-left">
-                                                    <!-- User Image -->
+                                                    <!-- Staff Image -->
                                                     <img src="{{ asset("/bower_components/admin-lte/dist/img/generic_user_160x160.jpg") }}" class="img-circle" alt="User Image"/>
                                                 </div>
                                                 <!-- Message title and timestamp -->
@@ -117,7 +117,7 @@
                         </li>
                     @endif
 
-                    <!-- User Account Menu -->
+                    <!-- Staff Account Menu -->
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

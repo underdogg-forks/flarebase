@@ -2,9 +2,9 @@
 
 use App\Models\Audit;
 use App\Models\Setting;
-use Bosnadev\Repositories\Eloquent\Repository;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class AuditRepository extends Repository
+class AuditRepository extends BaseRepository
 {
     public function model()
     {

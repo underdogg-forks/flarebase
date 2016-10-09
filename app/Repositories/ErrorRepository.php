@@ -1,8 +1,8 @@
 <?php namespace App\Repositories;
 
-use Bosnadev\Repositories\Eloquent\Repository;
+use Prettus\Repository\Eloquent\BaseRepository;
 
-class ErrorRepository extends Repository {
+class ErrorRepository {
 
     public function model()
     {

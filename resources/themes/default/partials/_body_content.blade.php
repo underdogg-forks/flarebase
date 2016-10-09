@@ -1,3 +1,5 @@
+
+
 <div class="wrapper">
 
     <!-- Header -->
@@ -14,7 +16,7 @@
                 {{ $page_title or "Page Title" }}
                 <small>{{ $page_description or "Page description" }}</small>
             </h1>
-            {!! MenuBuilder::renderBreadcrumbTrail(null, 'root', false)  !!}
+
         </section>
 
         <!-- Main content -->

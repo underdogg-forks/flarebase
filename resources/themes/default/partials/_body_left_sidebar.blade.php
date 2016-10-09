@@ -1,10 +1,15 @@
+
+<?php
+echo "body left SideBar";
+?>
+
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
 
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-        <!-- Sidebar staff panel (optional) -->
+        <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             @if (Auth::check())
                 <div class="pull-left image">
@@ -29,7 +34,15 @@
         </form>
         <!-- /.search form -->
 
+<?php
+echo "Menu Home";
+?>
+
         {!! MenuBuilder::renderMenu('home')  !!}
+
+<?php
+echo "Menu Admin";
+?>
 
         {!! MenuBuilder::renderMenu('admin', true)  !!}
     </section>

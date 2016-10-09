@@ -21,6 +21,14 @@ class Handler extends ExceptionHandler
      */
     protected $dontReport = [
         \Symfony\Component\HttpKernel\Exception\HttpException::class,
+
+
+        AuthorizationException::class,
+        HttpException::class,
+        ModelNotFoundException::class,
+        ValidationException::class,
+
+
     ];
 
     /**
@@ -116,7 +124,7 @@ class Handler extends ExceptionHandler
             } else {
                 $staff_id = 'N/A';
                 $user_name = 'unauthenticated';
-                $user_first_name = 'Unauthenticated User';
+                $user_first_name = 'Unauthenticated Staff';
                 $user_last_name = 'N/A';
             }
             $exception_class = get_class($exception);
