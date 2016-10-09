@@ -56,7 +56,7 @@ class AuthorizeRoute
             $path       = $laravelRoute->getPath();
             $actionName = $laravelRoute->getActionName();
 
-            // Get current user or set guest to true for unauthenticated users.
+            // Get current staff or set guest to true for unauthenticated staff.
             if ( $this->auth->check() ) {
                 $user       = $this->auth->user();
                 $username   = $user->username;
@@ -72,7 +72,7 @@ class AuthorizeRoute
                 $authorized = true;
             }
             // User is 'root', all is authorized.
-            // TODO: Get super user name from config, and replace all occurrences.
+            // TODO: Get super staff name from config, and replace all occurrences.
             elseif (!$guest && isset($user) && 'root' == $user->username) {
                 $authorized = true;
             }
@@ -82,7 +82,7 @@ class AuthorizeRoute
                 $authorized = true;
             }
             else {
-//                if ($user->enabled)
+//                if ($staff->enabled)
 //                {
                 // Get application route based on info from Laravel route.
                 $appRoute = AppRoute::ofMethod($method)
@@ -107,11 +107,11 @@ class AuthorizeRoute
                             $authorized = true;
                         }
                         // TODO: Get 'basic-authenticated' role name from config, and replace all occurrences.
-                        // The route is available to any authenticated user.
+                        // The route is available to any authenticated staff.
                         elseif ( !$guest && isset($user) && ($user->enabled) && 'basic-authenticated' == $appRoute->permission->name ) {
                             $authorized = true;
                         }
-                        // The user has the permission required by the route.
+                        // The staff has the permission required by the route.
                         elseif ( !$guest && isset($user) && ($user->enabled) && $user->can($appRoute->permission->name) ) {
                             $authorized = true;
                         }

@@ -2,60 +2,60 @@
 return [
 
     'audit-log'           => [
-        'category'              => 'Users',
-        'msg-index'             => 'Accessed list of users.',
-        'msg-show'              => 'Accessed details of user: :username.',
-        'msg-store'             => 'Created new user: :username.',
-        'msg-edit'              => 'Initiated edit of user: :username.',
-        'msg-replay-edit'       => 'Initiated replay edit of user: :username.',
-        'msg-update'            => 'Submitted edit of user: :username.',
-        'msg-destroy'           => 'Deleted user: :username.',
-        'msg-enable'            => 'Enabled user: :username.',
-        'msg-disabled'          => 'Disabled user: :username.',
-        'msg-enabled-selected'  => 'Enabled multiple user.',
-        'msg-disabled-selected' => 'Disabled multiple user.',
+        'category'              => 'Staff',
+        'msg-index'             => 'Accessed list of staff.',
+        'msg-show'              => 'Accessed details of staff: :username.',
+        'msg-store'             => 'Created new staff: :username.',
+        'msg-edit'              => 'Initiated edit of staff: :username.',
+        'msg-replay-edit'       => 'Initiated replay edit of staff: :username.',
+        'msg-update'            => 'Submitted edit of staff: :username.',
+        'msg-destroy'           => 'Deleted staff: :username.',
+        'msg-enable'            => 'Enabled staff: :username.',
+        'msg-disabled'          => 'Disabled staff: :username.',
+        'msg-enabled-selected'  => 'Enabled multiple staff.',
+        'msg-disabled-selected' => 'Disabled multiple staff.',
     ],
 
     'status'              => [
         'created'                   => 'User successfully created',
         'updated'                   => 'User successfully updated',
         'deleted'                   => 'User successfully deleted',
-        'global-enabled'            => 'Selected users enabled.',
-        'global-disabled'           => 'Selected users disabled.',
+        'global-enabled'            => 'Selected staff enabled.',
+        'global-disabled'           => 'Selected staff disabled.',
         'enabled'                   => 'User enabled.',
         'disabled'                  => 'User disabled.',
-        'no-user-selected'          => 'No user selected.',
+        'no-staff-selected'          => 'No staff selected.',
     ],
 
     'error'               => [
         'cant-be-edited'                => 'User cannot be edited',
         'cant-be-deleted'               => 'User cannot be deleted',
         'cant-be-disabled'              => 'User cannot be disabled',
-        'login-failed-user-disabled'    => 'That account has been disabled.',
+        'login-failed-staff-disabled'    => 'That account has been disabled.',
         'perm_not_found'                => 'Could not find permission #:id.',
-        'user_not_found'                => 'Could not find user #:id.',
+        'user_not_found'                => 'Could not find staff #:id.',
     ],
 
     'page'              => [
         'index'              => [
-            'title'             => 'Admin | Users',
-            'description'       => 'List of users',
+            'title'             => 'Admin | Staff',
+            'description'       => 'List of staff',
             'table-title'       => 'User list',
         ],
         'show'              => [
             'title'             => 'Admin | User | Show',
-            'description'       => 'Displaying user: :full_name',
+            'description'       => 'Displaying staff: :full_name',
             'section-title'     => 'User details'
         ],
         'create'            => [
             'title'            => 'Admin | User | Create',
-            'description'      => 'Creating a new user',
-            'section-title'    => 'New user'
+            'description'      => 'Creating a new staff',
+            'section-title'    => 'New staff'
         ],
         'edit'              => [
             'title'            => 'Admin | User | Edit',
-            'description'      => 'Editing user: :full_name',
-            'section-title'    => 'Edit user'
+            'description'      => 'Editing staff: :full_name',
+            'section-title'    => 'Edit staff'
         ],
     ],
 
@@ -87,7 +87,7 @@ return [
     ],
 
     'button'               => [
-        'create'    =>  'Create new user',
+        'create'    =>  'Create new staff',
     ],
 
     'options'               => [

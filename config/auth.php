@@ -8,14 +8,14 @@ return [
     |--------------------------------------------------------------------------
     |
     | This option controls the authentication driver that will be utilized.
-    | This driver manages the retrieval and authentication of the users
+    | This driver manages the retrieval and authentication of the staff
     | attempting to get access to protected areas of your application.
     |
     | Supported: "database", "eloquent"
     |
     */
 
-    'driver' => 'eloquent-ldap',
+    'driver' => 'eloquent',
 
     /*
     |--------------------------------------------------------------------------
@@ -23,12 +23,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | When using the "Eloquent" authentication driver, we need to know which
-    | Eloquent model should be used to retrieve your users. Of course, it
+    | Eloquent model should be used to retrieve your staff. Of course, it
     | is often just the "User" model but you may use whatever you like.
     |
     */
 
-    'model' => App\User::class,
+    'model' => App\Staff::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -36,12 +36,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | When using the "Database" authentication driver, we need to know which
-    | table should be used to retrieve your users. We have chosen a basic
+    | table should be used to retrieve your staff. We have chosen a basic
     | default value but you may easily change it to any table you like.
     |
     */
 
-    'table' => 'users',
+    'table' => 'staff',
 
     /*
     |--------------------------------------------------------------------------
@@ -71,7 +71,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Specify if accounts are enabled as they are created when registering or
-    | if they are disabled, and waiting for an user administrator to manually
+    | if they are disabled, and waiting for an staff administrator to manually
     | enable them.
     |
     */
@@ -83,7 +83,7 @@ return [
     | Email validation
     |--------------------------------------------------------------------------
     |
-    | Should the system send an email to a user, after the registration form is
+    | Should the system send an email to a staff, after the registration form is
     | submitted, with a validation link.
     |
     */
@@ -92,10 +92,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Enable user on validation
+    | Enable staff on validation
     |--------------------------------------------------------------------------
     |
-    | Should the system automatically enable users if they pass the email
+    | Should the system automatically enable staff if they pass the email
     | validation test?
     |
     */

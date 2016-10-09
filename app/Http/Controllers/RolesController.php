@@ -6,7 +6,7 @@ use App\Repositories\Criteria\Role\RolesWhereDisplayNameOrDescriptionLike;
 use App\Repositories\Criteria\Role\RolesWithPermissions;
 use App\Repositories\PermissionRepository as Permission;
 use App\Repositories\RoleRepository as Role;
-use App\Repositories\UserRepository as User;
+use App\Repositories\StaffRepository as User;
 use Auth;
 use Flash;
 use Illuminate\Contracts\Foundation\Application;
@@ -108,18 +108,18 @@ class RolesController extends Controller
 
         Audit::log(Auth::user()->id, trans('admin/roles/general.audit-log.category'), trans('admin/roles/general.audit-log.msg-store', ['name' => $attributes['name']]));
 
-        if ( (array_key_exists('selected_users', $attributes)) && (!empty($attributes['selected_users'])) ) {
-            $attributes['users'] = explode(",", $attributes['selected_users']);
+        if ( (array_key_exists('selected_staff', $attributes)) && (!empty($attributes['selected_staff'])) ) {
+            $attributes['staff'] = explode(",", $attributes['selected_staff']);
         }
         else {
-            $attributes['users'] = null;
+            $attributes['staff'] = null;
         }
 
         $role = $this->role->create($attributes);
 
         $role->savePermissions($request->get('perms'));
         $role->forcePermission('basic-authenticated');
-        $role->saveUsers($attributes['users']);
+        $role->saveUsers($attributes['staff']);
 
         Flash::success( trans('admin/roles/general.status.created') ); // 'Role successfully created');
 
@@ -167,10 +167,10 @@ class RolesController extends Controller
 
         $attributes = $request->all();
 
-        if ( (array_key_exists('selected_users', $attributes)) && (!empty($attributes['selected_users'])) ) {
-            $attributes['users'] = explode(",", $attributes['selected_users']);
+        if ( (array_key_exists('selected_staff', $attributes)) && (!empty($attributes['selected_staff'])) ) {
+            $attributes['staff'] = explode(",", $attributes['selected_staff']);
         } else {
-            $attributes['users'] = [];
+            $attributes['staff'] = [];
         }
 
         if ($role->isEditable()) {
@@ -184,7 +184,7 @@ class RolesController extends Controller
         $role->forcePermission('basic-authenticated');
 
         if ($role->canChangeMembership()) {
-            $role->saveUsers($attributes['users']);
+            $role->saveUsers($attributes['staff']);
         }
 
         Flash::success( trans('admin/roles/general.status.updated') ); // 'Role successfully updated');
@@ -267,7 +267,7 @@ class RolesController extends Controller
      */
     public function disable($id)
     {
-        //TODO: Should we protect 'admins', 'users'??
+        //TODO: Should we protect 'admins', 'staff'??
 
         $role = $this->role->find($id);
 
@@ -312,7 +312,7 @@ class RolesController extends Controller
      */
     public function disableSelected(Request $request)
     {
-        //TODO: Should we protect 'admins', 'users'??
+        //TODO: Should we protect 'admins', 'staff'??
 
         $chkRoles = $request->input('chkRole');
 

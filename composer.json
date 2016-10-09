@@ -1,13 +1,12 @@
 {
     "name": "sroutier/laravel-enterprise-starter-kit",
-    "description": "A Starter project based on Laravel 5.1 with theme support, optional LDAP/AD authentication, dynamic route authorization, etc...",
+    "description": "A Starter project based on Laravel 5.1 with theme support, dynamic route authorization, etc...",
     "keywords": [
       "framework",
       "laravel",
       "starter kit",
       "template",
       "theme",
-      "LDAP",
       "Active Directory"
     ],
     "homepage": "https://github.com/sroutier/laravel-enterprise-starter-kit",
@@ -36,14 +35,15 @@
         "laracasts/flash": "~1.3",
         "zizaco/entrust": "dev-laravel-5",
         "bosnadev/repositories": "0.*",
-        "sroutier/eloquent-ldap": "^1.0@dev",
         "zofe/rapyd": "2.1.*",
         "baum/baum": "~1.1",
         "sroutier/lesk-modules": "^3.0",
         "mgallegos/laravel-jqgrid": "1.*",
         "creativeorange/gravatar": "~1.0",
         "tylercd100/lern": "~3.6.5",
-        "arcanedev/settings": "^1.2"
+        "arcanedev/settings": "^1.2",
+        "panique/pdo-debug": "^0.2.0",
+        "filp/whoops": "~1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

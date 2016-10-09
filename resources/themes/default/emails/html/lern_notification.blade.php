@@ -2,7 +2,7 @@
     <h1 style="3D&quot;font-size:12.8px&quot;">Whoops, looks like something went wrong.</h1>
     <b>URL:</b>&nbsp;{{$url}}<br>
     <b>Method:</b>&nbsp;{{$method}}<br>
-    <b>User ID:</b>&nbsp;{{$user_id}}<br>
+    <b>User ID:</b>&nbsp;{{$staff_id}}<br>
     <b>User name:</b>&nbsp;{{$user_name}}<br>
     <b>User first name:</b>&nbsp;{{$user_first_name}}<br>
     <b>User last name:</b>&nbsp;{{$user_last_name}}<br>

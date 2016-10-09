@@ -2,7 +2,7 @@
 
 use App\Models\Setting;
 use App\Repositories\AuditRepository as Audit;
-use App\User;
+use App\Staff;
 use Auth;
 use DateTime;
 use DateTimeZone;
@@ -49,7 +49,7 @@ class Utils
 
     /**
      * Iterate through the flattened array of settings and removes
-     * all user settings. A new array is build and returned.
+     * all staff settings. A new array is build and returned.
      *
      * User settings are found to start with the 'User" key followed by a number,
      * both parts are separated by a dot ('.').
@@ -62,7 +62,7 @@ class Utils
         $allNonUserSetting = Arr::where($allSettings, function ($k) {
             if ("User." === substr( $k, 0, 5 ) ) {
                 $kparts = explode('.', $k);
-                $user = User::ofUsername($kparts[1])->first();
+                $user = Staff::ofUsername($kparts[1])->first();
                 if ($user instanceof User) {
                     return false;
                 }
@@ -101,7 +101,7 @@ class Utils
 
 
     /**
-     * Send flash message to the users screen and logs an audit log. If an exception is provided
+     * Send flash message to the staff screen and logs an audit log. If an exception is provided
      * the exception message will be included in the audit log entry.
      *
      * @param $auditCategory
@@ -113,7 +113,7 @@ class Utils
     {
         $auditMsg = $msg;
 
-        // Get current user or set guest to true for unauthenticated users.
+        // Get current staff or set guest to true for unauthenticated staff.
         if ( Auth::check() ) {
             $user       = Auth::user();
 
@@ -170,7 +170,7 @@ class Utils
         $dateTime = new DateTime();
         $dateTime->setTimeZone(new DateTimeZone($time_zone));
         $tzAbrev = $dateTime->format('T');
-        // Convert system time to user's timezone
+        // Convert system time to staff's timezone
         $locDate = $date;
         $locDate->setTimeZone(new DateTimeZone($time_zone));
 

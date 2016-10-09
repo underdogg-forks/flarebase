@@ -38,7 +38,7 @@ return [
         'details'           => 'Details',
         'options'           => 'Options',
         'perms'             => 'Permissions',
-        'users'             => 'Users',
+        'staff'             => 'Staff',
         'roles'             => 'Roles',
         'routes'            => 'Routes',
         'data'              => 'Data',
@@ -83,7 +83,7 @@ return [
     'page'              => [
         'profile'              => [
             'title'             => 'User | Profile',
-            'description'       => 'Displaying user: :full_name',
+            'description'       => 'Displaying staff: :full_name',
             'section-title'     => 'Profile details'
         ],
     ],

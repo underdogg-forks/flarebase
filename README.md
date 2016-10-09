@@ -61,10 +61,10 @@ Directory (AD) authentication and the dynamic authorization module. But wait the
         * Reset forgot password.
     * User based permissions.
     * Dynamic assignment of permissions to application routes with matching authorization module.
-    * Full management of users, roles, permissions & routes.
+    * Full management of staff, roles, permissions & routes.
     * Optional LDAP/AD authentication using [sroutier/eloquent-ldap](https://github.com/sroutier/eloquent-ldap), with options to:
-        * Automatically creates local account for LDAP/AD users on first login.
-        * Automatic assignment of users to local roles based on matching LDAP/AD group membership.
+        * Automatically creates local account for LDAP/AD staff on first login.
+        * Automatic assignment of staff to local roles based on matching LDAP/AD group membership.
         * Automatically refresh role assignment on user login.
 * Dynamic and security-aware menus system and breadcrumb trail. Menu editor included in the admin section
 * Optional walled garden mode.
@@ -80,7 +80,7 @@ Directory (AD) authentication and the dynamic authorization module. But wait the
 * User profile with Gravatar integration using [creativeorange/gravatar](https://github.com/creativeorange/gravatar).
 * Internationalization (i18n).
 * Gulp and Elixir ready to compile and minimize Sass & CoffeeScript.
-* Laravel Exception Recorder and Notifier using [LERN](https://github.com/tylercd100/lern) with admin pages to view logged errors and link to user.
+* Laravel Exception Recorder and Notifier using [LERN](https://github.com/tylercd100/lern) with admin pages to view logged errors and link to staff.
 * Bootstrap v3.3.4.
 * Font-awesome v4.4.0.
 * Ionicons v2.0.1.
@@ -98,7 +98,7 @@ Directory (AD) authentication and the dynamic authorization module. But wait the
 ## Roadmap
 List of future feature and items that are still have to be completed, in no particular order:
 
-* Implement soft-delete for Users, Roles, Permissions and maybe even Routes.
+* Implement soft-delete for Staff, Roles, Permissions and maybe even Routes.
 * Persistent notifications.
 * Single sign-on for IIS and Apache.
 * Favicon (one per theme?).
@@ -268,7 +268,7 @@ Generate the unique application key:
 ````
 
 #### Grant permissions to some directories. 
-Either grant permission to all users, or just to the Web Server user by making it a member of the group that owns these folders.
+Either grant permission to all staff, or just to the Web Server user by making it a member of the group that owns these folders.
 ````
 chmod -R ugo+rw storage/
 chmod -R ugo+rw bootstrap/cache/
@@ -313,16 +313,16 @@ the default password is *Password1*. Please change it ASAP.
 During the installation the database seeder scripts created a few things to help get started:
 
 * The super user *root*.
-* The roles *admins* and *users*.
+* The roles *admins* and *staff*.
 * The permissions *basic-authenticated*, *guest-only* & *open-to-all*.
 
-Additionally, on a development environment a few more test users and permissions would have been created.
+Additionally, on a development environment a few more test staff and permissions would have been created.
 
-The relationship between users, roles & permissions is relatively simple: users are assigned roles (many-to-many)
+The relationship between staff, roles & permissions is relatively simple: staff are assigned roles (many-to-many)
 and roles are assigned permissions (many-to-many). This enables a simple role based permission assignment system.
 For more information please refer to the documentation of the [zizaco/entrust](https://github.com/zizaco/entrust) 
 package. Also while not recommended by autorization best practices, user based permission assignment is 
-supported. Permissions can be directly assigned to individual users if needed.
+supported. Permissions can be directly assigned to individual staff if needed.
 
 Where things get a little more interesting is the addition of the *Route* model. Not to be confused with the 
 [Route](http://laravel.com/api/5.1/Illuminate/Routing/Route.html) from Laravel, the *Route* model is still 
@@ -332,25 +332,25 @@ greeted with an empty table. To automatically load all routes defined within the
 click on the *load* button. After a short delay, the page will reload and you will be able to 
 assign any of the defined permission to each route.
  
-Once *Routes* are assigned a single *Permission* each and permissions are assigned to *Roles* and finally *Users* are 
+Once *Routes* are assigned a single *Permission* each and permissions are assigned to *Roles* and finally *Staff* are
 granted *Roles*, then the matching *AuthorizeRoute* middleware can authorize or block access to all routes for both 
-guest and authenticated users. This feature will probably not be used by any site user or even administrators,
+guest and authenticated staff. This feature will probably not be used by any site user or even administrators,
 but by the site developer(s). In fact one of the first things that I would recommend is to restrict all routes
 to the *Route* management pages to a permission given to developers only. What this feature does is make 
 the authorization process very flexible, powerful and easy to change on the fly.
   
 Some important hard-set rules to note are:
 
-* Except when specifically stated otherwise below, routes, permissions, roles and users can be disabled.
+* Except when specifically stated otherwise below, routes, permissions, roles and staff can be disabled.
 * Routes
     * If a route is either not defined or not assigned any permission, it will not be accessible, except to the root 
     user or any user granted the admins role.
     * Routes to the controllers *AuthController* and *PasswordController* are not restricted by the *AuthorizeRoute* 
-    middleware. Otherwise users could not log in or reset their passwords.
-    * A route assigned the permission *open-to-all* will be authorize for all users, authenticated or not.
-    * A route assigned the permission *guest-only* will only be authorized for guest users, not for authenticated ones.
+    middleware. Otherwise staff could not log in or reset their passwords.
+    * A route assigned the permission *open-to-all* will be authorize for all staff, authenticated or not.
+    * A route assigned the permission *guest-only* will only be authorized for guest staff, not for authenticated ones.
     * A route assigned the permission *basic-authenticated* will be authorized for any user that has logged into the
-    system. No other permission will be required. But the same route will be denied for guest users.
+    system. No other permission will be required. But the same route will be denied for guest staff.
     * Failure to be authorized to access a route will redirect to the error page 403 (access denied).
     * When loading *Routes* from the Web site routing table, all routes to the *AuthController* and *PasswordController*
     will be skipped over. Also any route to the *DebugBar* will be skipped. If required they can be added by creating 
@@ -360,23 +360,23 @@ Some important hard-set rules to note are:
 * Permissions
     * The permissions *guest-only* and *basic-authenticated* cannot be edited or deleted.
     * A permission that is assigned to a *Route* or a *Role* cannot be deleted.
-    * The permission *guest-only* cannot be assigned to any role. It is reserved for guest or un-authenticated users.
+    * The permission *guest-only* cannot be assigned to any role. It is reserved for guest or un-authenticated staff.
     * The permission *basic-authenticated* is forced onto every role.
     * The permission assignment for the role *admins* cannot be changed.
     * Disabling a permission prevents it from granting access to any route assigned to that permissions.
 
 * Roles
-    * The roles *admins* and *users* cannot be edited or deleted
-    * The role *users* is force onto every user.
-    * Disabling a role prevent prevents the users assigned this role from getting the abilities of that role.
+    * The roles *admins* and *staff* cannot be edited or deleted
+    * The role *staff* is force onto every staff.
+    * Disabling a role prevent prevents the staff assigned this role from getting the abilities of that role.
 
-* Users
+* Staff
     * The user *root* and any user with the *admin* role are not restricted by the *AuthorizeRoute* middleware. They 
     can go anywhere they want, even to routes that are either disabled or not defined.
     * If a user is disabled while he is logged into and using the Web site, he will get automatically logged out the 
     next time he tries to access a route protected by the *AuthorizeRoute* middleware.
     * The user *root* cannot be edited or deleted.
-    * A user cannot disable or delete his own currently logged in user.
+    * A user cannot disable or delete his own currently logged in staff.
 
 ### LDAP/AD authentication.
 To enable the optional LDAP/AD authentication module, set the *LDAP_ENABLED* variable to *true* in the *.env* file as shown 
@@ -398,7 +398,7 @@ To create a new menu item, first click on the *Clear* button, if you previously 
 then fill in the form details following these guidelines:
 
 * *Name*: The internal and unique name used as a reference. Required field.
-* *Label*: The label shown to the users.
+* *Label*: The label shown to the staff.
 * *Position*: A number used to sort the menu item amongst it siblings. In the event that two items have the same 
 position value the items are sorted alphabetically. The position numbers do not have to be sequential, gaps in the 
 numbering can created to allow for future insertion, or to ensure that an item or branch is placed last, as is the 
@@ -424,7 +424,7 @@ below:
 ````
 WALLED-GARDEN.ENABLED=true
 ````
-By default the walled garden mode is set to off or false. When enabled all guest or un-authenticated users will be 
+By default the walled garden mode is set to off or false. When enabled all guest or un-authenticated staff will be
 redirected to the login page.
 
 ### Themes
@@ -462,14 +462,14 @@ AUDIT_ENABLED=true
 By default the audit log is disabled. When enabled some user actions can log an entry in the application audit log by calling the static function *Audit::log()* as demonstrated below:
 ````
 // Create simple audit log entry
-Audit::log(Auth::user()->id, 'User', 'Access list of users.');
+Audit::log(Auth::user()->id, 'User', 'Access list of staff.');
 ````
 The full parameter list for the *log()* function is:
 ````
-log($user_id, $category, $message, Array $attributes = null, $data_parser = null, $replay_route = null)
+log($staff_id, $category, $message, Array $attributes = null, $data_parser = null, $replay_route = null)
 ````
 Parameter info:
-* *$user_id:* The id of the user that triggered the action, can be null when a user is not authenticated.
+* *$staff_id:* The id of the user that triggered the action, can be null when a user is not authenticated.
 * *$category:* Free text to group log entries, later we should be able to filter and search against the category.
 * *$message:* Free text containing the main message.
 * *$attributes:* An array containing any additional data that should either be displayed on the *show* page or to be used by the replay action.
@@ -481,8 +481,8 @@ The replay action feature, as the name suggest, allows to replay or repeat an ac
 Perhaps the best and easiest way to understand how it function is to follow a concrete example. Below I will describe how the replay action is used in the case of a user edit.
 
 ##### Creating a replay-able audit log entry
-1. The operator (human) click on the link to edit the entry of a user, say ID #3, the URL would look something like this *http://lesk/admin/users/3/edit*.
-2. The controller *UsersController* and it's function *edit* are invoked. The *edit* function prepares the data that will be displayed and edited then pass it all the the view *admin.users.edit*. Note that in the *edit* function an audit log entry is created stating that the operator initiated the edition of the user. This is just a simple audit log entry that does not save any *attributes* or sets the *replay_route*, it is there simply for audit purposes.
+1. The operator (human) click on the link to edit the entry of a user, say ID #3, the URL would look something like this *http://lesk/admin/staff/3/edit*.
+2. The controller *UsersController* and it's function *edit* are invoked. The *edit* function prepares the data that will be displayed and edited then pass it all the the view *admin.staff.edit*. Note that in the *edit* function an audit log entry is created stating that the operator initiated the edition of the staff. This is just a simple audit log entry that does not save any *attributes* or sets the *replay_route*, it is there simply for audit purposes.
 3. The view is built and returned to the operator to see in his browser.
 4. The operator makes the changes that are required and submits the form.
 5. The controller *UsersController* and it's function *update* are invoked. As expected *update* function will capture the data and update the user's record in the database, but it will also create an audit log entry that can be replayed. Here are the steps required in details:
@@ -496,12 +496,12 @@ Perhaps the best and easiest way to understand how it function is to follow a co
   
      ````
      Audit::log( Auth::user()->id, 'User', "Edit user: $user->username",
-            $replayAtt, "App\Http\Controllers\UsersController::ParseUpdateAuditLog", "admin.users.replay-edit" );
+            $replayAtt, "App\Http\Controllers\UsersController::ParseUpdateAuditLog", "admin.staff.replay-edit" );
      ````
 
 That is it, you are done, a replay-able audit log entry has been created. Note the 4th and 6th parameters. 
 The 4th parameter (*replayAtt*) is the array of attributes that will be filtered to remove the session token and passwords, then converted into JSON and stored in the *data* column.
-The 6th parameter (*admin.users.replay-edit*) is the name of the Laravel route that will be invoked when a replay action is requested. 
+The 6th parameter (*admin.staff.replay-edit*) is the name of the Laravel route that will be invoked when a replay action is requested.
 The 5th parameter is the fully qualified function name that will be used to parse the *data* field. That will be described in a section below on displaying entry details and custom rendering partials.
 
 ##### Triggering a replay-able entry
@@ -509,8 +509,8 @@ Following the example above, here is a description of how triggering a replay-ab
 
 1. The operator (human) access the audit log page at: *http://lesk/admin/audit*
 2. Locates the replay-able entry by it's spinning recycling icon in the action column, and click on it.
-3. The *replay* function of the *AuditsController* controller is invoked. The *replay* function locates the audit log entry from the id passed in, and redirect to the Laravel route that is store in the *replay_route*. In this case it is *admin.users.replay-edit*.
-4. The *admin.users.replay-edit* route triggers the function *replayEdit* in the *UsersController* controller, as defined in the *app\Http\routes.php* file.
+3. The *replay* function of the *AuditsController* controller is invoked. The *replay* function locates the audit log entry from the id passed in, and redirect to the Laravel route that is store in the *replay_route*. In this case it is *admin.staff.replay-edit*.
+4. The *admin.staff.replay-edit* route triggers the function *replayEdit* in the *UsersController* controller, as defined in the *app\Http\routes.php* file.
 5. The *replayEdit* function perform the following:
   1. Locates the audit log entry from the ID passed in from *AuditsController::replay()*.
   2. Grabs the data field and decodes it from json the associative array.
@@ -595,7 +595,7 @@ far back, in days, exceptions are kept when purging. By default any exception ol
 
 Context sensitive help can be enabled by setting the configuration option ```APP_CONTEXT_HELP_AREA``` to true. When context sensitive help is enabled, a question mark (?) appears in the top-right area of the Web application. The question mark is either dimmed and disabled, or lit and enabled dependint on whether context sensitive help is available or not. For example on the home page the question mark will be dimmed and disabled but on the User edit page it will be lit and enabled. When clicked on, a small box will appear with the content of the context help inside. The help box can be dismissed by clicking anywhere outside the box.
 
-To create a new context sensitive help box, simply create a blade file under the ```resources/themes/default/views/context_help/``` folder followed by a struture representing the name of your route. For example the user edit page is accessed by the ```admin.users.edit``` route so create a blade page named ```edit.blade.php``` under ```resources/themes/default/views/context_help/admin/users/``` and it will automatically be loaded and shown when a user click on the question mark (?) icon.
+To create a new context sensitive help box, simply create a blade file under the ```resources/themes/default/views/context_help/``` folder followed by a struture representing the name of your route. For example the user edit page is accessed by the ```admin.staff.edit``` route so create a blade page named ```edit.blade.php``` under ```resources/themes/default/views/context_help/admin/staff/``` and it will automatically be loaded and shown when a user click on the question mark (?) icon.
 
 Module can also create context sensitive help by following the same principle but they must also set the __context__ parameter when they call the parent __constructor__, here is how the (Active Directory Inspector)[https://github.com/sroutier/LESK-Module_ActiveDirectoryInspector] module sets it, notice the 3rd parameter in the ```parent::__construct()``` call:
 ```

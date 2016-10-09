@@ -37,7 +37,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <!-- Optionally, you can add Slimscroll and FastClick plugins.
             Both of these plugins are recommended to enhance the
-            user experience. Slimscroll is required when using the
+            staff experience. Slimscroll is required when using the
             fixed layout. -->
 
       <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

@@ -10,13 +10,13 @@
         <div class='col-md-12'>
             <div class="box-body">
 
-                {!! Form::open( ['route' => 'admin.users.store', 'id' => 'form_edit_user'] ) !!}
+                {!! Form::open( ['route' => 'admin.staff.store', 'id' => 'form_edit_user'] ) !!}
 
-                @include('partials._user_form')
+                @include('partials._staff_form')
 
                 <div class="form-group">
                     {!! Form::button( trans('general.button.create'), ['class' => 'btn btn-primary', 'id' => 'btn-submit-edit'] ) !!}
-                    <a href="{!! route('admin.users.index') !!}" title="{{ trans('general.button.cancel') }}" class='btn btn-default'>{{ trans('general.button.cancel') }}</a>
+                    <a href="{!! route('admin.staff.index') !!}" title="{{ trans('general.button.cancel') }}" class='btn btn-default'>{{ trans('general.button.cancel') }}</a>
                 </div>
 
                 {!! Form::close() !!}

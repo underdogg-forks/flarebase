@@ -31,7 +31,7 @@ return [
     ],
 
     'columns'             => [
-        'user'                =>  'User',
+        'staff'                =>  'User',
         'message'             =>  'Message',
         'class'               =>  'Class',
         'url'                 =>  'URL',

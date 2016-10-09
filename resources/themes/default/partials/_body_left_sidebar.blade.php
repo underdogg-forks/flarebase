@@ -4,7 +4,7 @@
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
-        <!-- Sidebar user panel (optional) -->
+        <!-- Sidebar staff panel (optional) -->
         <div class="user-panel">
             @if (Auth::check())
                 <div class="pull-left image">

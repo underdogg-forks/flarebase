@@ -1,6 +1,8 @@
-# Laravel 5 #
+# Laravel 5 & Lumen specific #
 #############
 /vendor/
+bootstrap/cache/
+.env.*.php
 .env
 .env~
 storage/
@@ -63,3 +65,7 @@ _ide_helper*
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Rocketeer PHP task runner and deployment package. https://github.com/rocketeers/rocketeer
+.rocketeer/
+/composer.lock

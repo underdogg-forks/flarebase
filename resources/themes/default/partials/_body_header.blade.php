@@ -72,7 +72,7 @@
                                     <ul class="menu">
                                         <li><!-- start notification -->
                                             <a href="#">
-                                                <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                <i class="fa fa-staff text-aqua"></i> 5 new members joined today
                                             </a>
                                         </li><!-- end notification -->
                                     </ul>
@@ -121,13 +121,13 @@
                     <li class="dropdown user user-menu">
                         <!-- Menu Toggle Button -->
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <!-- The user image in the navbar-->
+                            <!-- The staff image in the navbar-->
                             <img src="{{ Gravatar::get(Auth::user()->email , 'tiny') }}" class="user-image" alt="User Image"/>
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
                             <span class="hidden-xs">{{ Auth::user()->username }}</span>
                         </a>
                         <ul class="dropdown-menu">
-                            <!-- The user image in the menu -->
+                            <!-- The staff image in the menu -->
                             <li class="user-header">
                                 <img src="{{ Gravatar::get(Auth::user()->email , 'medium') }}" class="img-circle" alt="User Image" />
                                 <p>
@@ -156,7 +156,7 @@
 
                                 @if ( config('app.user_profile_link') )
                                     <div class="pull-left">
-                                        {!! link_to_route('user.profile', 'Profile', [], ['class' => "btn btn-default btn-flat"]) !!}
+                                        {!! link_to_route('staff.profile', 'Profile', [], ['class' => "btn btn-default btn-flat"]) !!}
                                     </div>
                                 @endif
 

@@ -4,11 +4,11 @@
 <script type="text/javascript">
     $('#user_search').select2({
         theme: "bootstrap",
-        placeholder: 'Search users...',
+        placeholder: 'Search staff...',
         minimumInputLength: 3,
         ajax: {
             delay: 250,
-            url: '/admin/users/search',
+            url: '/admin/staff/search',
             dataType: 'json',
             data: function (params) {
                 var queryParameters = {
@@ -26,18 +26,18 @@
         tags: true
     });
 
-    $("#btn-add-user").on("click", function () {
+    $("#btn-add-staff").on("click", function () {
         var userName, userFullname, userEnabled, userStatus, idCell, fullnameCel, nameCel, enabledCel, actionCel;
         // Get ID.
         var userID = $('#user_search').val();
-        // Build URL based on route and replace "{user}" with ID.
-        var urlShowUser = '{!! route("admin.users.show") !!}'.replace('%7Busers%7D', userID);
+        // Build URL based on route and replace "{staff}" with ID.
+        var urlShowUser = '{!! route("admin.staff.show") !!}'.replace('%7Bstaff%7D', userID);
         // Capture CSRF token from meta header.
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
         // Parse table values based on selected text.
         $.ajax({
-            url: '{!! route("admin.users.get-info") !!}',
+            url: '{!! route("admin.staff.get-info") !!}',
             type: 'POST',
             data: {
                 _token: CSRF_TOKEN,
@@ -62,11 +62,11 @@
                 fullnameCel    = '<td>' + '<a href="' + urlShowUser + '">' + userFullname + '</a>' + '</td>';
                 nameCel    = '<td>' + '<a href="' + urlShowUser + '">' + userName + '</a>' + '</td>';
                 enabledCel = '<td>' + userStatus + '</td>';
-                actionCel  = '<td style="text-align: right"><a class="btn-remove-user" href="#" title="{{ trans('general.button.remove-user') }}"><i class="fa fa-trash-o deletable"></i></a></td>';
+                actionCel  = '<td style="text-align: right"><a class="btn-remove-staff" href="#" title="{{ trans('staff') }}"><i class="fa fa-trash-o deletable"></i></a></td>';
 
                 // Add selected item only if not already in list.
-                if ( $('#tbl-users tr > td[rowname="id"]:contains(' + userID + ')').length == 0 ) {
-                    $('#tbl-users > tbody:last-child').append('<tr>' + idCell + fullnameCel + nameCel + enabledCel + actionCel + '</tr>');
+                if ( $('#tbl-staff tr > td[rowname="id"]:contains(' + userID + ')').length == 0 ) {
+                    $('#tbl-staff > tbody:last-child').append('<tr>' + idCell + fullnameCel + nameCel + enabledCel + actionCel + '</tr>');
                 }
 
             }
@@ -75,6 +75,6 @@
     });
 
     $('body').on('click', 'a.btn-remove-user', function() {
-        $(this).parent().parent().remove();
+ staff   $(this).parent().parent().remove();
     });
 </script>

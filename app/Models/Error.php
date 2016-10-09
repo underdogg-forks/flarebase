@@ -1,16 +1,16 @@
 <?php namespace app\Models;
 
 use App\Traits\BaseModelTrait;
-use App\User;
+use App\Staff;
 use Tylercd100\LERN\Models\ExceptionModel;
 
 class Error extends ExceptionModel
 {
     use BaseModelTrait;
 
-    public function user()
+    public function staff()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Staff::class);
     }
 
 //    /**

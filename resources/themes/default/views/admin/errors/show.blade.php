@@ -24,8 +24,8 @@
                                 {!! Form::text('date', App\Libraries\Utils::userTimeZone($error->created_at), ['class' => 'form-control', 'readonly']) !!}
                             </div>
                             <div class="form-group">
-                                {!! Form::label('user', trans('admin/error/general.columns.user')) !!}
-                                {!! Form::text('user', ($error->user)? $error->user->username : "N/A", ['class' => 'form-control', 'readonly']) !!}
+                                {!! Form::label('staff', trans('staff')) !!}
+                                {!! Form::text('staff', ($error->user)? $error->user->username : "N/A", ['class' => 'form-control', 'readonly']) !!}
                             </div>
                             <div class="form-group">
                                 {!! Form::label('class', trans('admin/error/general.columns.class')) !!}

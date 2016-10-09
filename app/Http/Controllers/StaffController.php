@@ -13,20 +13,20 @@ use App\Repositories\Criteria\User\UsersWhereFirstNameOrLastNameOrUsernameLike;
 use App\Repositories\Criteria\User\UsersWithRoles;
 use App\Repositories\PermissionRepository as Permission;
 use App\Repositories\RoleRepository as Role;
-use App\Repositories\UserRepository as User;
+use App\Repositories\StaffRepository as Staff;
 use Auth;
 use Flash;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Mail;
 
-class UsersController extends Controller
+class StaffController extends Controller
 {
 
     /**
-     * @var User
+     * @var Staff
      */
-    protected $user;
+    protected $staff;
 
     /**
      * @var Role
@@ -39,13 +39,13 @@ class UsersController extends Controller
     protected $perm;
 
     /**
-     * @param User $user
+     * @param Staff $staff
      * @param Role $role
      */
-    public function __construct(Application $app, Audit $audit, User $user, Role $role, Permission $perm)
+    public function __construct(Application $app, Audit $audit, Staff $staff, Role $role, Permission $perm)
     {
         parent::__construct($app, $audit);
-        $this->user  = $user;
+        $this->staff  = $staff;
         $this->role  = $role;
         $this->perm  = $perm;
     }
@@ -55,13 +55,13 @@ class UsersController extends Controller
      */
     public function index()
     {
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-index'));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-index'));
 
-        $page_title = trans('admin/users/general.page.index.title'); // "Admin | Users";
-        $page_description = trans('admin/users/general.page.index.description'); // "List of users";
+        $page_title = trans('admin/staff/general.page.index.title'); // "Admin | Staff";
+        $page_description = trans('admin/staff/general.page.index.description'); // "List of staff";
 
-        $users = $this->user->pushCriteria(new UsersWithRoles())->pushCriteria(new UsersByUsernamesAscending())->paginate(10);
-        return view('admin.users.index', compact('users', 'page_title', 'page_description'));
+        $staff = $this->staff->pushCriteria(new UsersWithRoles())->pushCriteria(new UsersByUsernamesAscending())->paginate(10);
+        return view('admin.staff.index', compact('staff', 'page_title', 'page_description'));
     }
 
     /**
@@ -69,27 +69,27 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-show', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-show', ['username' => $staff->username]));
 
-        $page_title = trans('admin/users/general.page.show.title'); // "Admin | User | Show";
-        $page_description = trans('admin/users/general.page.show.description', ['full_name' => $user->full_name]); // "Displaying user";
+        $page_title = trans('admin/staff/general.page.show.title'); // "Admin | User | Show";
+        $page_description = trans('admin/staff/general.page.show.description', ['full_name' => $staff->full_name]); // "Displaying staff";
 
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
 
-        $theme = $user->settings()->get('theme', null);
-        $time_zone = $user->settings()->get('time_zone', null);
-        $time_format = $user->settings()->get('time_format', null);
+        $theme = $staff->settings()->get('theme', null);
+        $time_zone = $staff->settings()->get('time_zone', null);
+        $time_format = $staff->settings()->get('time_format', null);
         $locales = (new Setting())->get('app.supportedLocales');
-        $localeIdent = $user->settings()->get('locale', null);
+        $localeIdent = $staff->settings()->get('locale', null);
         if (!Str::isNullOrEmptyString($localeIdent)) {
             $locale = $locales[$localeIdent];
         } else {
             $locale = "";
         }
 
-        return view('admin.users.show', compact('user', 'perms', 'theme', 'time_zone', 'time_format', 'locale', 'page_title', 'page_description'));
+        return view('admin.staff.show', compact('staff', 'perms', 'theme', 'time_zone', 'time_format', 'locale', 'page_title', 'page_description'));
     }
 
     /**
@@ -97,26 +97,26 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $page_title = trans('admin/users/general.page.create.title'); // "Admin | User | Create";
-        $page_description = trans('admin/users/general.page.create.description'); // "Creating a new user";
+        $page_title = trans('admin/staff/general.page.create.title'); // "Admin | User | Create";
+        $page_description = trans('admin/staff/general.page.create.description'); // "Creating a new staff";
 
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
-        $user = new \App\User();
+        $staff = new \App\Staff();
 
         $themes = \Theme::getList();
         $themes = Arr::indexToAssoc($themes, true);
-        $theme = $user->settings()->get('theme', null);
+        $theme = $staff->settings()->get('theme', null);
 
         $time_zones = \DateTimeZone::listIdentifiers();
-        $time_zone = $user->settings()->get('time_zone', null);
+        $time_zone = $staff->settings()->get('time_zone', null);
         $tzKey = array_search($time_zone, $time_zones);
 
-        $time_format = $user->settings()->get('time_format', null);
+        $time_format = $staff->settings()->get('time_format', null);
 
         $locales = (new Setting())->get('app.supportedLocales');
-        $locale = $user->settings()->get('locale', null);
+        $locale = $staff->settings()->get('locale', null);
 
-        return view('admin.users.create', compact('user', 'perms', 'themes', 'theme', 'time_zones', 'tzKey', 'time_format', 'locale', 'locales', 'page_title', 'page_description'));
+        return view('admin.staff.create', compact('staff', 'perms', 'themes', 'theme', 'time_zones', 'tzKey', 'time_format', 'locale', 'locales', 'page_title', 'page_description'));
     }
 
     /**
@@ -126,11 +126,11 @@ class UsersController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        $this->validate($request, \app\User::getCreateValidationRules());
+        $this->validate($request, \app\Staff::getCreateValidationRules());
 
         $attributes = $request->all();
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-store', ['username' => $attributes['username']]));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-store', ['username' => $attributes['username']]));
 
         if ( (array_key_exists('selected_roles', $attributes)) && (!empty($attributes['selected_roles'])) ) {
             $attributes['role'] = explode(",", $attributes['selected_roles']);
@@ -138,14 +138,14 @@ class UsersController extends Controller
             $attributes['role'] = [];
         }
 
-        // Create basic user.
-        $user = $this->user->create($attributes);
+        // Create basic staff.
+        $staff = $this->staff->create($attributes);
         // Run the update method to set enabled status and roles membership.
-        $user->update($attributes);
+        $staff->update($attributes);
 
-        Flash::success( trans('admin/users/general.status.created') ); // 'User successfully created');
+        Flash::success( trans('admin/staff/general.status.created') ); // 'User successfully created');
 
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     /**
@@ -155,30 +155,30 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-edit', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-edit', ['username' => $staff->username]));
 
-        $page_title = trans('admin/users/general.page.edit.title'); // "Admin | User | Edit";
-        $page_description = trans('admin/users/general.page.edit.description', ['full_name' => $user->full_name]); // "Editing user";
+        $page_title = trans('admin/staff/general.page.edit.title'); // "Admin | User | Edit";
+        $page_description = trans('admin/staff/general.page.edit.description', ['full_name' => $staff->full_name]); // "Editing staff";
 
         $roles = $this->role->pushCriteria(new RolesByNamesAscending())->all();
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
 
         $themes = \Theme::getList();
         $themes = Arr::indexToAssoc($themes, true);
-        $theme = $user->settings()->get('theme', null);
+        $theme = $staff->settings()->get('theme', null);
 
         $time_zones = \DateTimeZone::listIdentifiers();
-        $time_zone = $user->settings()->get('time_zone', null);
+        $time_zone = $staff->settings()->get('time_zone', null);
         $tzKey = array_search($time_zone, $time_zones);
 
-        $time_format = $user->settings()->get('time_format', null);
+        $time_format = $staff->settings()->get('time_format', null);
 
         $locales = (new Setting())->get('app.supportedLocales');
-        $locale = $user->settings()->get('locale', null);
+        $locale = $staff->settings()->get('locale', null);
 
-        return view('admin.users.edit', compact('user', 'roles', 'perms', 'themes', 'theme', 'time_zones', 'tzKey', 'time_format', 'locale', 'locales', 'page_title', 'page_description'));
+        return view('admin.staff.edit', compact('staff', 'roles', 'perms', 'themes', 'theme', 'time_zones', 'tzKey', 'time_format', 'locale', 'locales', 'page_title', 'page_description'));
     }
 
     static public function ParseUpdateAuditLog($id)
@@ -199,7 +199,7 @@ class UsersController extends Controller
                     $permsObj[] = $perm;
                 }
                 else {
-                    $permsNoFound[] = trans('admin/users/general.error.perm_not_found', ['id' => $id]);
+                    $permsNoFound[] = trans('admin/staff/general.error.perm_not_found', ['id' => $id]);
                 }
             }
         }
@@ -215,7 +215,7 @@ class UsersController extends Controller
                     $rolesObj[] = $role;
                 }
                 else {
-                    $rolesNotFound[] = trans('admin/users/general.error.perm_not_found', ['id' => $id]);
+                    $rolesNotFound[] = trans('admin/staff/general.error.perm_not_found', ['id' => $id]);
                 }
             }
         }
@@ -223,14 +223,14 @@ class UsersController extends Controller
         $dataAtt['rolesNotFound'] = $rolesNotFound;
 
         // Add the file name of the partial (blade) that will render this data.
-        $dataAtt['show_partial'] = 'admin/users/_audit_log_data_viewer_update';
+        $dataAtt['show_partial'] = 'admin/staff/_audit_log_data_viewer_update';
 
         return $dataAtt;
     }
 
     /**
-     * Loads the audit log item from the id passed in, locate the relevant user, then overwrite all current attributes
-     * of the user with the values from the audit log data field. Once the user saved, redirect to the edit page,
+     * Loads the audit log item from the id passed in, locate the relevant staff, then overwrite all current attributes
+     * of the staff with the values from the audit log data field. Once the staff saved, redirect to the edit page,
      * where the operator can inspect and further edit if needed.
      *
      * @param $id
@@ -243,46 +243,46 @@ class UsersController extends Controller
         $audit = $this->audit->find($id);
         // Getting the attributes from the data fields.
         $att = json_decode($audit->data, true);
-        // Finding the user to operate on from the id field that was populated in the
+        // Finding the staff to operate on from the id field that was populated in the
         // edit action that created this audit record.
-        $user = $this->user->find($att['id']);
+        $staff = $this->staff->find($att['id']);
 
-        if (null == $user) {
-            Flash::warning( trans('admin/users/general.error.user_not_found', [ 'id' => $att['id'] ]) );
+        if (null == $staff) {
+            Flash::warning( trans('admin/staff/general.error.user_not_found', [ 'id' => $att['id'] ]) );
             return \Redirect::route('admin.audit.index');
         }
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-replay-edit', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-replay-edit', ['username' => $staff->username]));
 
-        $page_title = trans('admin/users/general.page.edit.title'); // "Admin | User | Edit";
-        $page_description = trans('admin/users/general.page.edit.description', ['full_name' => $user->full_name]); // "Editing user";
+        $page_title = trans('admin/staff/general.page.edit.title'); // "Admin | User | Edit";
+        $page_description = trans('admin/staff/general.page.edit.description', ['full_name' => $staff->full_name]); // "Editing staff";
 
-        if (!$user->isEditable())
+        if (!$staff->isEditable())
         {
             abort(403);
         }
 
-        // Setting user attributes with values from audit log to replay the requested action.
+        // Setting staff attributes with values from audit log to replay the requested action.
         // Password is not replayed.
-        $user->first_name = $att['first_name'];
-        $user->last_name = $att['last_name'];
-        $user->username = $att['username'];
-        $user->email = $att['email'];
-        $user->enabled = $att['enabled'];
+        $staff->first_name = $att['first_name'];
+        $staff->last_name = $att['last_name'];
+        $staff->username = $att['username'];
+        $staff->email = $att['email'];
+        $staff->enabled = $att['enabled'];
         if (array_key_exists('selected_roles', $att)) {
             $aRoleIDs = explode(",", $att['selected_roles']);
-            $user->roles()->sync($aRoleIDs);
+            $staff->roles()->sync($aRoleIDs);
         }
         if (array_key_exists('perms', $att)) {
-            $user->permissions()->sync($att['perms']);
+            $staff->permissions()->sync($att['perms']);
         }
-        $user->save();
+        $staff->save();
 
 
         $roles = $this->role->all();
         $perms = $this->perm->all();
 
-        return view('admin.users.edit', compact('user', 'roles', 'perms', 'page_title', 'page_description'));
+        return view('admin.staff.edit', compact('staff', 'roles', 'perms', 'page_title', 'page_description'));
     }
 
     /**
@@ -292,9 +292,9 @@ class UsersController extends Controller
      */
     public function update(UpdateUserRequest $request, $id)
     {
-        $this->validate($request, \app\User::getUpdateValidationRules($id));
+        $this->validate($request, \app\Staff::getUpdateValidationRules($id));
 
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
         // Get all attribute from the request.
         $attributes = $request->all();
@@ -303,7 +303,7 @@ class UsersController extends Controller
         $passwordChanged = false;
         // Fix #17 as per @sloan58
         // Check if the password was submitted and has changed.
-        if(!\Hash::check($attributes['password'],$user->password) && $attributes['password'] != '')
+        if(!\Hash::check($attributes['password'],$staff->password) && $attributes['password'] != '')
         {
             // Password was changed, set flag for later.
             $passwordChanged = true;
@@ -319,11 +319,11 @@ class UsersController extends Controller
 
         // Get a copy of the attributes that we will modify to save for a replay.
         $replayAtt = $attributes;
-        // Add the id of the current user for the replay action.
+        // Add the id of the current staff for the replay action.
         $replayAtt["id"] = $id;
         // Create log entry with replay data.
-        $tmp = Audit::log( Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-update', ['username' => $user->username]),
-            $replayAtt, "App\Http\Controllers\UsersController::ParseUpdateAuditLog", "admin.users.replay-edit" );
+/*        $tmp = Audit::log( Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-update', ['username' => $staff->username]),
+            $replayAtt, "App\Http\Controllers\StaffController::ParseUpdateAuditLog", "admin.staff.replay-edit" );*/
 
 
         if ( (array_key_exists('selected_roles', $attributes)) && (!empty($attributes['selected_roles'])) ) {
@@ -332,9 +332,9 @@ class UsersController extends Controller
             $attributes['role'] = [];
         }
 
-        if ($user->isRoot())
+        if ($staff->isRoot())
         {
-            // Prevent changes to some fields for the root user.
+            // Prevent changes to some fields for the root staff.
             unset($attributes['username']);
             unset($attributes['first_name']);
             unset($attributes['last_name']);
@@ -344,14 +344,14 @@ class UsersController extends Controller
             unset($attributes['perms']);
         }
 
-        $user->update($attributes);
+        $staff->update($attributes);
         if ($passwordChanged) {
-            $user->emailPasswordChange();
+            $staff->emailPasswordChange();
         }
 
-        Flash::success( trans('admin/users/general.status.updated') );
+        Flash::success( trans('admin/staff/general.status.updated') );
 
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     /**
@@ -360,20 +360,20 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        if (!$user->isdeletable())
+        if (!$staff->isdeletable())
         {
             abort(403);
         }
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-destroy', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-destroy', ['username' => $staff->username]));
 
-        $this->user->delete($id);
+        $this->staff->delete($id);
 
-        Flash::success( trans('admin/users/general.status.deleted') );
+        Flash::success( trans('admin/staff/general.status.deleted') );
 
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     /**
@@ -386,24 +386,24 @@ class UsersController extends Controller
     {
         $error = null;
 
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        if (!$user->isdeletable())
+        if (!$staff->isdeletable())
         {
             abort(403);
         }
 
-        $modal_title = trans('admin/users/dialog.delete-confirm.title');
+        $modal_title = trans('admin/staff/dialog.delete-confirm.title');
 
         if (Auth::user()->id !== $id) {
-            $user = $this->user->find($id);
-            $modal_route = route('admin.users.delete', array('id' => $user->id));
+            $staff = $this->staff->find($id);
+            $modal_route = route('admin.staff.delete', array('id' => $staff->id));
 
-            $modal_body = trans('admin/users/dialog.delete-confirm.body', ['id' => $user->id, 'full_name' => $user->full_name]);
+            $modal_body = trans('admin/staff/dialog.delete-confirm.body', ['id' => $staff->id, 'full_name' => $staff->full_name]);
         }
         else
         {
-            $error = trans('admin/users/general.error.cant-delete-yourself');
+            $error = trans('admin/staff/general.error.cant-delete-yourself');
         }
         return view('modal_confirmation', compact('error', 'modal_route', 'modal_title', 'modal_body'));
 
@@ -415,16 +415,16 @@ class UsersController extends Controller
      */
     public function enable($id)
     {
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-enable', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-enable', ['username' => $staff->username]));
 
-        $user->enabled = true;
-        $user->save();
+        $staff->enabled = true;
+        $staff->save();
 
-        Flash::success(trans('admin/users/general.status.enabled'));
+        Flash::success(trans('admin/staff/general.status.enabled'));
 
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     /**
@@ -433,22 +433,22 @@ class UsersController extends Controller
      */
     public function disable($id)
     {
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        if (!$user->canBeDisabled())
+        if (!$staff->canBeDisabled())
         {
-            Flash::error(trans('admin/users/general.error.cant-be-disabled'));
+            Flash::error(trans('admin/staff/general.error.cant-be-disabled'));
         }
         else
         {
-            Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-disabled', ['username' => $user->username]));
+            Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-disabled', ['username' => $staff->username]));
 
-            $user->enabled = false;
-            $user->save();
-            Flash::success(trans('admin/users/general.status.disabled'));
+            $staff->enabled = false;
+            $staff->save();
+            Flash::success(trans('admin/staff/general.status.disabled'));
         }
 
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     /**
@@ -458,23 +458,23 @@ class UsersController extends Controller
     {
         $chkUsers = $request->input('chkUser');
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-enabled-selected'), $chkUsers);
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-enabled-selected'), $chkUsers);
 
         if (isset($chkUsers))
         {
-            foreach ($chkUsers as $user_id)
+            foreach ($chkUsers as $staff_id)
             {
-                $user = $this->user->find($user_id);
-                $user->enabled = true;
-                $user->save();
+                $staff = $this->staff->find($staff_id);
+                $staff->enabled = true;
+                $staff->save();
             }
-            Flash::success(trans('admin/users/general.status.global-enabled'));
+            Flash::success(trans('admin/staff/general.status.global-enabled'));
         }
         else
         {
-            Flash::warning(trans('admin/users/general.status.no-user-selected'));
+            Flash::warning(trans('admin/staff/general.status.no-staff-selected'));
         }
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     /**
@@ -484,30 +484,30 @@ class UsersController extends Controller
     {
         $chkUsers = $request->input('chkUser');
 
-        Audit::log(Auth::user()->id, trans('admin/users/general.audit-log.category'), trans('admin/users/general.audit-log.msg-disabled-selected'), $chkUsers);
+        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-disabled-selected'), $chkUsers);
 
         if (isset($chkUsers))
         {
-            foreach ($chkUsers as $user_id)
+            foreach ($chkUsers as $staff_id)
             {
-                $user = $this->user->find($user_id);
-                if (!$user->canBeDisabled())
+                $staff = $this->staff->find($staff_id);
+                if (!$staff->canBeDisabled())
                 {
-                    Flash::error(trans('admin/users/general.error.cant-be-disabled'));
+                    Flash::error(trans('admin/staff/general.error.cant-be-disabled'));
                 }
                 else
                 {
-                    $user->enabled = false;
-                    $user->save();
+                    $staff->enabled = false;
+                    $staff->save();
                 }
             }
-            Flash::success(trans('admin/users/general.status.global-disabled'));
+            Flash::success(trans('admin/staff/general.status.global-disabled'));
         }
         else
         {
-            Flash::warning(trans('admin/users/general.status.no-user-selected'));
+            Flash::warning(trans('admin/staff/general.status.no-staff-selected'));
         }
-        return redirect('/admin/users');
+        return redirect('/admin/staff');
     }
 
     public function searchByName(Request $request)
@@ -516,15 +516,15 @@ class UsersController extends Controller
 
         $query = $request->input('query');
 
-        $users = $this->user->pushCriteria(new UsersWhereFirstNameOrLastNameOrUsernameLike($query))->all();
+        $staff = $this->staff->pushCriteria(new UsersWhereFirstNameOrLastNameOrUsernameLike($query))->all();
 
-        foreach ($users as $user) {
-            $id = $user->id;
-            $first_name = $user->first_name;
-            $last_name = $user->last_name;
-            $username = $user->username;
+        foreach ($staff as $staff) {
+            $id = $staff->id;
+            $first_name = $staff->first_name;
+            $last_name = $staff->last_name;
+            $staffname = $staff->username;
 
-            $entry_arr = [ 'id' => $id, 'text' => "$first_name $last_name ($username)"];
+            $entry_arr = [ 'id' => $id, 'text' => "$first_name $last_name ($staffname)"];
             $return_arr[] = $entry_arr;
         }
 
@@ -536,12 +536,12 @@ class UsersController extends Controller
         $skipNumb = $request->input('s');
         $takeNumb = $request->input('t');
 
-        $userCollection = \App\User::skip($skipNumb)->take($takeNumb)
+        $staffCollection = \App\Staff::skip($skipNumb)->take($takeNumb)
             ->get(['id', 'first_name', 'last_name', 'username'])
             ->lists('full_name_and_username', 'id');
-        $userList = $userCollection->all();
+        $staffList = $staffCollection->all();
 
-        return $userList;
+        return $staffList;
     }
 
     /**
@@ -551,9 +551,9 @@ class UsersController extends Controller
     public function getInfo(Request $request)
     {
         $id = $request->input('id');
-        $user = $this->user->find($id);
+        $staff = $this->staff->find($id);
 
-        return $user;
+        return $staff;
     }
 
     /**
@@ -561,29 +561,29 @@ class UsersController extends Controller
      */
     public function profile()
     {
-        $user = Auth::user();
+        $staff = Auth::user();
 
-        Audit::log(Auth::user()->id, trans('general.audit-log.category-profile'), trans('general.audit-log.msg-profile-show', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('general.audit-log.category-profile'), trans('general.audit-log.msg-profile-show', ['username' => $staff->username]));
 
         $page_title = trans('general.page.profile.title');
-        $page_description = trans('general.page.profile.description', ['full_name' => $user->full_name]);
-        $readOnlyIfLDAP = ('ldap' == $user->auth_type) ? 'readonly' : '';
+        $page_description = trans('general.page.profile.description', ['full_name' => $staff->full_name]);
+        $readOnlyIfLDAP = ('ldap' == $staff->auth_type) ? 'readonly' : '';
         $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
 
         $themes = \Theme::getList();
         $themes = Arr::indexToAssoc($themes, true);
-        $theme = $user->settings()->get('theme');
+        $theme = $staff->settings()->get('theme');
 
         $time_zones = \DateTimeZone::listIdentifiers();
-        $time_zone = $user->settings()->get('time_zone');
+        $time_zone = $staff->settings()->get('time_zone');
         $tzKey = array_search($time_zone, $time_zones);
 
-        $time_format = $user->settings()->get('time_format');
+        $time_format = $staff->settings()->get('time_format');
 
         $locales = (new Setting())->get('app.supportedLocales');
-        $locale = $user->settings()->get('locale');
+        $locale = $staff->settings()->get('locale');
 
-        return view('user.profile', compact('user', 'perms', 'themes', 'theme', 'time_zones', 'tzKey', 'time_format', 'locale', 'locales', 'readOnlyIfLDAP', 'page_title', 'page_description'));
+        return view('staff.profile', compact('staff', 'perms', 'themes', 'theme', 'time_zones', 'tzKey', 'time_format', 'locale', 'locales', 'readOnlyIfLDAP', 'page_title', 'page_description'));
     }
 
     /**
@@ -593,11 +593,11 @@ class UsersController extends Controller
      */
     public function profileUpdate(UpdateUserRequest $request)
     {
-        $user = Auth::user();
+        $staff = Auth::user();
 
-        $this->validate($request, \app\User::getUpdateValidationRules($user->id));
+        $this->validate($request, \app\Staff::getUpdateValidationRules($staff->id));
 
-        Audit::log(Auth::user()->id, trans('general.audit-log.category-profile'), trans('general.audit-log.msg-profile-update', ['username' => $user->username]));
+        Audit::log(Auth::user()->id, trans('general.audit-log.category-profile'), trans('general.audit-log.msg-profile-update', ['username' => $staff->username]));
 
         // Get all attribute from the request.
         $attributes = $request->all();
@@ -606,7 +606,7 @@ class UsersController extends Controller
         $passwordChanged = false;
         // Fix #17 as per @sloan58
         // Check if the password was submitted and has changed.
-        if(!\Hash::check($attributes['password'],$user->password) && $attributes['password'] != '')
+        if(!\Hash::check($attributes['password'],$staff->password) && $attributes['password'] != '')
         {
             // Password was changed, set flag for later.
             $passwordChanged = true;
@@ -619,8 +619,8 @@ class UsersController extends Controller
             // Set flag just to be sure
             $passwordChanged = false;
         }
-        // Prevent changes to some fields for the root user.
-        if ($user->isRoot())
+        // Prevent changes to some fields for the root staff.
+        if ($staff->isRoot())
         {
             unset($attributes['username']);
             unset($attributes['first_name']);
@@ -631,27 +631,27 @@ class UsersController extends Controller
         // Fix: Editing the profile does not allow to edit the Roles and permissions only to see them.
         // So load the attribute array with current roles and perms to prevent them from being erased.
         $role_ids = [];
-        foreach ($user->roles as $role) {
+        foreach ($staff->roles as $role) {
             $role_ids[] = $role->id;
         }
         $attributes['role'] = $role_ids;
 
         $perm_ids = [];
-        foreach ($user->permissions as $perm) {
+        foreach ($staff->permissions as $perm) {
             $perm_ids[] = $perm->id;
         }
         $attributes['perms'] = $perm_ids;
 
 
-        // Update user properties.
-        $user->update($attributes);
+        // Update staff properties.
+        $staff->update($attributes);
         if ($passwordChanged) {
-            $user->emailPasswordChange();
+            $staff->emailPasswordChange();
         }
 
         Flash::success( trans('general.status.profile.updated') );
 
-        return redirect()->route('user.profile');
+        return redirect()->route('staff.profile');
     }
 
 }

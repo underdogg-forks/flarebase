@@ -65,7 +65,36 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($this->isHttpException($e))
+        {
+            return $this->renderHttpException($e);
+        }
+
+        if (config('app.debug'))
+        {
+            return $this->renderExceptionWithWhoops($e);
+        }
+
         return parent::render($request, $e);
+    }
+
+
+    /**
+     * Render an exception using Whoops.
+     * 
+     * @param  \Exception $e
+     * @return \Illuminate\Http\Response
+     */
+    protected function renderExceptionWithWhoops(Exception $e)
+    {
+        $whoops = new \Whoops\Run;
+        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler());
+
+        return new \Illuminate\Http\Response(
+            $whoops->handleException($e),
+            $e->getStatusCode(),
+            $e->getHeaders()
+        );
     }
 
 
@@ -80,12 +109,12 @@ class Handler extends ExceptionHandler
             $method = Request::method();
             $user = Auth::user();
             if ($user) {
-                $user_id = $user->id;
+                $staff_id = $user->id;
                 $user_name = $user->username;
                 $user_first_name = $user->first_name;
                 $user_last_name = $user->last_name;
             } else {
-                $user_id = 'N/A';
+                $staff_id = 'N/A';
                 $user_name = 'unauthenticated';
                 $user_first_name = 'Unauthenticated User';
                 $user_last_name = 'N/A';
@@ -122,7 +151,7 @@ class Handler extends ExceptionHandler
                 $exception_trace_formatted[] = $formatted_trace;
             }
 
-            $view = View::make('emails.html.lern_notification', compact('url', 'method', 'user_id', 'user_name',
+            $view = View::make('emails.html.lern_notification', compact('url', 'method', 'staff_id', 'user_name',
                 'user_first_name', 'user_last_name', 'exception_class', 'exception_file', 'exception_line',
                 'exception_message', 'exception_trace', 'exception_trace_formatted', 'input'));
 

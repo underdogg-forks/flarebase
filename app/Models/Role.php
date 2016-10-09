@@ -18,8 +18,8 @@ class Role extends EntrustRole
      */
     public function isEditable()
     {
-        // Protect the admins and users roles from editing changes
-        if (('admins' == $this->name) || ('users' == $this->name)) {
+        // Protect the admins and staff roles from editing changes
+        if (('admins' == $this->name) || ('staff' == $this->name)) {
             return false;
         }
 
@@ -31,8 +31,8 @@ class Role extends EntrustRole
      */
     public function isDeletable()
     {
-        // Protect the admins and users roles from deletion
-        if (('admins' == $this->name) || ('users' == $this->name)) {
+        // Protect the admins and staff roles from deletion
+        if (('admins' == $this->name) || ('staff' == $this->name)) {
             return false;
         }
 
@@ -57,8 +57,8 @@ class Role extends EntrustRole
      */
     public function canChangeMembership()
     {
-        // Protect the users role from membership changes
-        if ('users' == $this->name) {
+        // Protect the staff role from membership changes
+        if ('staff' == $this->name) {
             return false;
         }
 
@@ -71,7 +71,7 @@ class Role extends EntrustRole
      */
     public static function isForced($role)
     {
-        if ('users' == $role->name) {
+        if ('staff' == $role->name) {
             return true;
         }
 
@@ -108,7 +108,7 @@ class Role extends EntrustRole
     }
 
     /**
-     * Save the inputted users.
+     * Save the inputted staff.
      *
      * @param mixed $inputUsers
      *
@@ -117,9 +117,9 @@ class Role extends EntrustRole
     public function saveUsers($inputUsers)
     {
         if (!empty($inputUsers)) {
-            $this->users()->sync($inputUsers);
+            $this->staff()->sync($inputUsers);
         } else {
-            $this->users()->detach();
+            $this->staff()->detach();
         }
     }
 }

@@ -69,7 +69,7 @@ class LESKSecuredMenuHandler implements MenuHandlerInterface
         $user           = null;
 
 
-        // Get current user or set guest to true for unauthenticated users.
+        // Get current staff or set guest to true for unauthenticated staff.
         if ( \Auth::check() ) {
             $user       = \Auth::user();
             $username   = $user->username;
@@ -99,7 +99,7 @@ class LESKSecuredMenuHandler implements MenuHandlerInterface
             elseif ( $guest && 'guest-only' == $perm->name ) {
                 $authorized = true;
             }
-            // The user has the permission required by the route.
+            // The staff has the permission required by the route.
             elseif ( !$guest && isset($user) && ($user->enabled) && $user->can($perm->name) ) {
                 $authorized = true;
             }

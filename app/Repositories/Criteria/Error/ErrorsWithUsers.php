@@ -14,7 +14,7 @@ class ErrorsWithUsers extends Criteria {
      */
     public function apply( $model, Repository $repository )
     {
-        $model = $model->with('user');
+        $model = $model->with('staff');
         return $model;
     }
 

@@ -137,7 +137,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | This is the permission_user table used to save relationship
-    | between permissions and users to the database.
+    | between permissions and staff to the database.
     |
     | See: 'config/entrust.php'
     |
@@ -153,7 +153,7 @@ return [
     | The name of the route that requests will be redirected to when calling
     | the 'home' or '/' route.
     | This setting defaults to the 'welcome' route and it will be checked against
-    | the users permission before redirecting, if the user does not have the
+    | the staff permission before redirecting, if the staff does not have the
     | permission required to see the configured home route, the 'welcome'
     | route will be selected.
     |
@@ -214,7 +214,7 @@ return [
     | Allow registration
     |--------------------------------------------------------------------------
     |
-    | Boolean flag that allows users to register themselves, defaults to true.
+    | Boolean flag that allows staff to register themselves, defaults to true.
     |
     */
     'allow_registration' => env('APP.ALLOW_REGISTRATION', true),
@@ -241,10 +241,10 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Extended user menu
+    | Extended staff menu
     |--------------------------------------------------------------------------
     |
-    | Boolean flag that shows extended user menu boilerplate, defaults to true.
+    | Boolean flag that shows extended staff menu boilerplate, defaults to true.
     |
     */
     'extended_user_menu' => env('APP.EXTENDED_USER_MENU', true),
@@ -254,7 +254,7 @@ return [
     | User profile link
     |--------------------------------------------------------------------------
     |
-    | Boolean flag that shows the user profile link boilerplate, defaults to true.
+    | Boolean flag that shows the staff profile link boilerplate, defaults to true.
     |
     */
     'user_profile_link' => env('APP.USER_PROFILE_LINK', true),
@@ -327,7 +327,6 @@ return [
         App\Providers\MenuBuilderServiceProvider::class,
         App\Providers\CustomBladeServiceProvider::class,
 
-        Sroutier\EloquentLDAP\Providers\EloquentLDAPServiceProvider::class,
 
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,

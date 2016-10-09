@@ -23,7 +23,7 @@
                                     <th>{{ trans('admin/error/general.columns.class') }}</th>
                                     <th>{{ trans('admin/error/general.columns.url') }}</th>
                                     <th>{{ trans('admin/error/general.columns.message') }}</th>
-                                    <th>{{ trans('admin/error/general.columns.user') }}</th>
+                                    <th>{{ trans('staff') }}</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -32,7 +32,7 @@
                                     <th>{{ trans('admin/error/general.columns.class') }}</th>
                                     <th>{{ trans('admin/error/general.columns.url') }}</th>
                                     <th>{{ trans('admin/error/general.columns.message') }}</th>
-                                    <th>{{ trans('admin/error/general.columns.user') }}</th>
+                                    <th>{{ trans('staff') }}</th>
                                 </tr>
                             </tfoot>
                             <tbody>
@@ -45,7 +45,7 @@
                                             <td><a href="{!! route('admin.errors.show', $lern_error->id) !!}" title="{{ trans('general.button.display') }}">@strHead($lern_error->message, 70, "...")</a></td>
                                             <td>
                                                 @if ($lern_error->user)
-                                                    <a href="{!! route('admin.users.show', $lern_error->user->id) !!}" title="{{ trans('general.button.display') }}"> {{ $lern_error->user->username }} </a>
+                                                    <a href="{!! route('admin.staff.show', $lern_error->user->id) !!}" title="{{ trans('general.button.display') }}"> {{ $lern_error->user->username }} </a>
                                                 @else
                                                     N/A
                                                 @endif
