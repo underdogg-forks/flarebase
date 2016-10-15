@@ -11,9 +11,10 @@ use App\Repositories\Criteria\Role\RolesByNamesAscending;
 use App\Repositories\Criteria\User\UsersByUsernamesAscending;
 use App\Repositories\Criteria\User\UsersWhereFirstNameOrLastNameOrUsernameLike;
 use App\Repositories\Criteria\User\UsersWithRoles;
-use App\Repositories\PermissionRepository as Permission;
+use App\Models\Permission;
 use App\Repositories\RoleRepository as Role;
-use App\Repositories\StaffRepository as Staff;
+use App\Staff;
+
 use Auth;
 use Flash;
 use Illuminate\Contracts\Foundation\Application;
@@ -55,16 +56,15 @@ class StaffController extends Controller
      */
     public function index()
     {
-        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-index'));
-
         $page_title = trans('admin/staff/general.page.index.title'); // "Admin | Staff";
         $page_description = trans('admin/staff/general.page.index.description'); // "List of staff";
 
-        //$staff = $this->staff->pushCriteria(new UsersWithRoles())->pushCriteria(new UsersByUsernamesAscending())->paginate(10);
+        $staff = Staff::with([
+            'roles' => function ($query) {
+                $query->select('id','name', 'display_name');
+            }])->get(['id', 'first_name', 'last_name', 'username', 'email', 'auth_type']);
 
-
-
-
+        //$staff = Staff::select(['id', 'first_name', 'last_name', 'username', 'email', 'auth_type'])->with('roles')->orderBy('username', 'ASC');
 
         return view('admin.staff.index', compact('staff', 'page_title', 'page_description'));
     }
@@ -76,12 +76,10 @@ class StaffController extends Controller
     {
         $staff = $this->staff->find($id);
 
-        Audit::log(Auth::user()->id, trans('admin/staff/general.audit-log.category'), trans('admin/staff/general.audit-log.msg-show', ['username' => $staff->username]));
-
         $page_title = trans('admin/staff/general.page.show.title'); // "Admin | Staff | Show";
         $page_description = trans('admin/staff/general.page.show.description', ['full_name' => $staff->full_name]); // "Displaying staff";
 
-        $perms = $this->perm->pushCriteria(new PermissionsByNamesAscending())->all();
+        $perms = Permission::all();
 
         $theme = $staff->settings()->get('theme', null);
         $time_zone = $staff->settings()->get('time_zone', null);

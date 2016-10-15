@@ -21,7 +21,8 @@
     "arcanedev/settings": "^1.2",
     "panique/pdo-debug": "^0.2.0",
     "filp/whoops": "^1.0",
-    "prettus/l5-repository": "^2.6"
+    "prettus/l5-repository": "^2.6",
+    "bosnadev/repositories": " 0.*"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

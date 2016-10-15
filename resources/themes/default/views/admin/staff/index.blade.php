@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
+
     <div class='row'>
         <div class='col-md-12'>
             <!-- Box -->
@@ -98,7 +99,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        {!! $staff->render() !!}
                     </div> <!-- table-responsive -->
 
                 </div><!-- /.box-body -->
